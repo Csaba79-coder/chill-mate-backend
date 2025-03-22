@@ -2,8 +2,8 @@
 
 ![img.png](src/main/resources/static/images/chill-mates.png)
 
-## Dani Pocz-Nagy
-## Csaba Vadasz
+### Dani Pocz-Nagy
+### Csaba Vadasz
 
 ![img.png](src/main/resources/static/images/dani-csaba.png)
 
