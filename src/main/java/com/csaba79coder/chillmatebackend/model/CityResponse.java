@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityResponse {
+public class CityResponse {
 
     private UUID id;
     private String name;

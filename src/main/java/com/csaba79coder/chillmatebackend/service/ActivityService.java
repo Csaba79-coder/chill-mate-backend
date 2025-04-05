@@ -14,6 +14,8 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityEntityToResponse;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -26,7 +28,7 @@ public class ActivityService {
                 .name(activityRequest.getName())
                 .build();
         log.info("Creating activity: {}", activity);
-        return Mapper.mapActivityEntityToResponse(activityRepository.save(activity));
+        return mapActivityEntityToResponse(activityRepository.save(activity));
     }
 
     public List<ActivityResponse> getAllActivities() {
