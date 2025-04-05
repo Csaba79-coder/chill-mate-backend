@@ -30,12 +30,12 @@ public class ActivityController {
         return ResponseEntity.status(200).body(activityService.getAllActivities());
     }
 
-    @GetMapping("/activities/activity/{id}")
+    @GetMapping("/activities/activity-by-id/{id}")
     public ResponseEntity<ActivityResponse> getActivityById(@PathVariable UUID id) {
         return ResponseEntity.status(200).body(Mapper.mapActivityEntityToResponse(activityService.findActivityById(id)));
     }
 
-    @GetMapping("/activities/activity/{name}")
+    @GetMapping("/activities/activity-by-name/{name}")
     public ResponseEntity<ActivityResponse> searchActivityByName(@PathVariable String name) {
         return ResponseEntity.status(200).body(activityService.findByName(name));
     }
