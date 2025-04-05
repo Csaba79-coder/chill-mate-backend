@@ -2,8 +2,10 @@ package com.csaba79coder.chillmatebackend.util;
 
 import com.csaba79coder.chillmatebackend.entity.Activity;
 import com.csaba79coder.chillmatebackend.entity.City;
+import com.csaba79coder.chillmatebackend.entity.Hobby;
 import com.csaba79coder.chillmatebackend.model.ActivityResponse;
 import com.csaba79coder.chillmatebackend.model.CityResponse;
+import com.csaba79coder.chillmatebackend.model.HobbyResponse;
 import org.modelmapper.ModelMapper;
 
 public class Mapper {
@@ -17,6 +19,11 @@ public class Mapper {
     public static CityResponse mapCityEntityToResponse(City city) {
         return modelMapper.map(city, CityResponse.class);
     }
+
+    public static HobbyResponse mapHobbyEntityToResponse(Hobby hobby) {
+        return modelMapper.map(hobby, HobbyResponse.class);
+    }
+
 
     private Mapper() {
     }

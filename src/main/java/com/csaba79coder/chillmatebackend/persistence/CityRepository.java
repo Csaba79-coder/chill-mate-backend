@@ -13,3 +13,4 @@ public interface CityRepository extends Neo4jRepository<City, UUID> {
 
     Optional<CityResponse> findCitiesByNameEqualsIgnoreCase(String name);
 }
+
