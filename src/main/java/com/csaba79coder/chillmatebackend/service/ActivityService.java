@@ -22,10 +22,11 @@ public class ActivityService {
     private final ActivityRepository activityRepository;
 
     public ActivityResponse createActivity(ActivityRequest activityRequest) {
-        Activity activity = new Activity();
-        activity.setName(activityRequest.getName());
-        Activity savedActivity = activityRepository.save(activity);
-        return Mapper.mapActivityEntityToResponse(savedActivity);
+        Activity activity = Activity.builder()
+                .name(activityRequest.getName())
+                .build();
+        log.info("Creating activity: {}", activity);
+        return Mapper.mapActivityEntityToResponse(activityRepository.save(activity));
     }
 
     public List<ActivityResponse> getAllActivities() {
@@ -34,13 +35,13 @@ public class ActivityService {
                 .collect(Collectors.toList());
     }
 
-    public ActivityResponse findActivityById(UUID id) {
-        return Mapper.mapActivityEntityToResponse(activityRepository.findById(id)
+    public Activity findActivityById(UUID id) {
+        return activityRepository.findById(id)
                 .orElseThrow(() -> {
                     String message = String.format("Activity with id: %s was not found", id);
                     log.info(message);
                     return new NoSuchElementException(message);
-                }));
+                });
     }
 
     public ActivityResponse findByName(String name) {
@@ -53,12 +54,7 @@ public class ActivityService {
     }
 
     public void deleteActivity(UUID id) {
-        Activity activity = activityRepository.findById(id)
-                .orElseThrow(() -> {
-                    String message = String.format("Activity with id: %s was not found", id);
-                    log.info(message);
-                    return new NoSuchElementException("Activity not found");
-                });
+        Activity activity = findActivityById(id);
         activityRepository.delete(activity);
         log.info("Activity with id: {} deleted successfully", id);
     }

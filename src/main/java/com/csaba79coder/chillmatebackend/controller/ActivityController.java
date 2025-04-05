@@ -3,6 +3,7 @@ package com.csaba79coder.chillmatebackend.controller;
 import com.csaba79coder.chillmatebackend.model.ActivityRequest;
 import com.csaba79coder.chillmatebackend.model.ActivityResponse;
 import com.csaba79coder.chillmatebackend.service.ActivityService;
+import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class ActivityController {
 
     @GetMapping("/activities/activity/{id}")
     public ResponseEntity<ActivityResponse> getActivityById(@PathVariable UUID id) {
-        return ResponseEntity.status(200).body(activityService.findActivityById(id));
+        return ResponseEntity.status(200).body(Mapper.mapActivityEntityToResponse(activityService.findActivityById(id)));
     }
 
     @GetMapping("/activities/activity/{name}")
@@ -42,6 +43,6 @@ public class ActivityController {
     @DeleteMapping("/activities/{id}")
     public ResponseEntity<Void> deleteActivity(@PathVariable UUID id) {
         activityService.deleteActivity(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(204).build();
     }
 }
