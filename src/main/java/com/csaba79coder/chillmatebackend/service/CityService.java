@@ -1,6 +1,7 @@
 package com.csaba79coder.chillmatebackend.service;
 
 import com.csaba79coder.chillmatebackend.entity.City;
+import com.csaba79coder.chillmatebackend.model.CityRequest;
 import com.csaba79coder.chillmatebackend.model.CityResponse;
 import com.csaba79coder.chillmatebackend.persistence.CityRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
@@ -22,7 +23,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public CityResponse createCity(City cityRequest) {
+    public CityResponse createCity(CityRequest cityRequest) {
         City city = City.builder()
                 .name(cityRequest.getName())
                 .build();

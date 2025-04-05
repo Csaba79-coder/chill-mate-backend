@@ -5,7 +5,6 @@ import com.csaba79coder.chillmatebackend.model.ActivityResponse;
 import com.csaba79coder.chillmatebackend.service.ActivityService;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class ActivityController {
     @PostMapping("/activities")
     public ResponseEntity<ActivityResponse> createActivity(@RequestBody ActivityRequest activityRequest) {
         ActivityResponse createdActivity = activityService.createActivity(activityRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdActivity);
+        return ResponseEntity.status(201).body(createdActivity);
     }
 
     @GetMapping("/activities")
