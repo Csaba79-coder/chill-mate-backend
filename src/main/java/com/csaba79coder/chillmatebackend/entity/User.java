@@ -19,7 +19,8 @@ public class User extends Identifier {
     private String lastName;
     private String midName;
 
-    @Relationship(type = "IS_FRIEND_WITH")
+    // this allows a both way connection (the direction!)
+    @Relationship(type = "IS_FRIEND_WITH", direction = Relationship.Direction.OUTGOING)
     private List<User> friends;
 
     @Relationship(type = "LIVES_IN")

@@ -54,4 +54,19 @@ public class UserService {
                 .build();
         return userRepository.save(user);
     }
+
+    // TODO it is just example, not implemented yet for both way connections!
+    // One-way friendship
+    public void addFriendOneWay(User from, User to) {
+        if (!from.getFriends().contains(to)) {
+            from.getFriends().add(to);
+            userRepository.save(from);
+        }
+    }
+
+    // Both ways friendship
+    public void addFriendMutual(User user1, User user2) {
+        addFriendOneWay(user1, user2);
+        addFriendOneWay(user2, user1);
+    }
 }
