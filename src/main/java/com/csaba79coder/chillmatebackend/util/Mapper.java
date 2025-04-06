@@ -44,8 +44,16 @@ public class Mapper {
         return modelMapper.map(musicGenre, MusicGenreResponse.class);
     }
 
-    public static MusicGenre mapMusicGenreResponseToEntity(MusicGenreResponse MusicGenreResponse) {
-        return modelMapper.map(MusicGenreResponse, MusicGenre.class);
+    public static MusicGenre mapMusicGenreResponseToEntity(MusicGenreResponse musicGenreResponse) {
+        return modelMapper.map(musicGenreResponse, MusicGenre.class);
+    }
+
+    public static SportResponse mapSportEntityToResponse(Sport sport) {
+        return modelMapper.map(sport, SportResponse.class);
+    }
+
+    public static Sport mapSportResponseToEntity(SportResponse sportResponse) {
+        return modelMapper.map(sportResponse, Sport.class);
     }
 
     private Mapper() {
