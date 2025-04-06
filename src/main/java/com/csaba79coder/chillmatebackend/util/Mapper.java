@@ -1,13 +1,7 @@
 package com.csaba79coder.chillmatebackend.util;
 
-import com.csaba79coder.chillmatebackend.entity.Activity;
-import com.csaba79coder.chillmatebackend.entity.City;
-import com.csaba79coder.chillmatebackend.entity.Hobby;
-import com.csaba79coder.chillmatebackend.entity.Movie;
-import com.csaba79coder.chillmatebackend.model.ActivityResponse;
-import com.csaba79coder.chillmatebackend.model.CityResponse;
-import com.csaba79coder.chillmatebackend.model.HobbyResponse;
-import com.csaba79coder.chillmatebackend.model.MovieResponse;
+import com.csaba79coder.chillmatebackend.entity.*;
+import com.csaba79coder.chillmatebackend.model.*;
 import org.modelmapper.ModelMapper;
 
 public class Mapper {
@@ -44,6 +38,14 @@ public class Mapper {
 
     public static Movie mapMovieResponseToEntity(MovieResponse movieResponse) {
         return modelMapper.map(movieResponse, Movie.class);
+    }
+
+    public static MusicGenreResponse mapMusicGenreEntityToResponse(MusicGenre musicGenre) {
+        return modelMapper.map(musicGenre, MusicGenreResponse.class);
+    }
+
+    public static MusicGenre mapMusicGenreResponseToEntity(MusicGenreResponse MusicGenreResponse) {
+        return modelMapper.map(MusicGenreResponse, MusicGenre.class);
     }
 
     private Mapper() {
