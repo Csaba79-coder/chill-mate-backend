@@ -11,9 +11,9 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HobbyResponse {
+public class MovieResponse {
 
     private UUID id;
-    private String name;
+    private String title;
     private List<User> users;
 }

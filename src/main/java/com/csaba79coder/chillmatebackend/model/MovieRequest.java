@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityRequest {
+public class MovieRequest {
 
-    private String name;
+    private String title;
 }

@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface ActivityRepository extends Neo4jRepository<Activity, UUID> {
 
-    Optional<ActivityResponse> findByNameEqualsIgnoreCase(String name);
+    Optional<ActivityResponse> findActivityByNameEqualsIgnoreCase(String name);
 }

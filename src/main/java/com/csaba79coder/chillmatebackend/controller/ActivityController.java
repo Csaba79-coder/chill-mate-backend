@@ -3,13 +3,14 @@ package com.csaba79coder.chillmatebackend.controller;
 import com.csaba79coder.chillmatebackend.model.ActivityRequest;
 import com.csaba79coder.chillmatebackend.model.ActivityResponse;
 import com.csaba79coder.chillmatebackend.service.ActivityService;
-import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityEntityToResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class ActivityController {
 
     @PostMapping("/activities")
     public ResponseEntity<ActivityResponse> createActivity(@RequestBody ActivityRequest activityRequest) {
-        ActivityResponse createdActivity = activityService.createActivity(activityRequest);
-        return ResponseEntity.status(201).body(createdActivity);
+        ActivityResponse activityResponse = activityService.createActivity(activityRequest);
+        return ResponseEntity.status(201).body(activityResponse);
     }
 
     @GetMapping("/activities")
@@ -31,7 +32,7 @@ public class ActivityController {
 
     @GetMapping("/activities/activity-by-id/{id}")
     public ResponseEntity<ActivityResponse> getActivityById(@PathVariable UUID id) {
-        return ResponseEntity.status(200).body(Mapper.mapActivityEntityToResponse(activityService.findActivityById(id)));
+        return ResponseEntity.status(200).body(mapActivityEntityToResponse(activityService.findActivityById(id)));
     }
 
     @GetMapping("/activities/activity-by-name/{name}")

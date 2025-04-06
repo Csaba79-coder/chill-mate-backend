@@ -47,7 +47,7 @@ public class CityService {
     }
 
     public CityResponse findByName(String name) {
-        return cityRepository.findCitiesByNameEqualsIgnoreCase(name)
+        return cityRepository.findCityByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("City with name: %s was not found", name);
                     log.info(message);

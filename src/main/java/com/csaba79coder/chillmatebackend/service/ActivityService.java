@@ -47,7 +47,7 @@ public class ActivityService {
     }
 
     public ActivityResponse findByName(String name) {
-        return activityRepository.findByNameEqualsIgnoreCase(name)
+        return activityRepository.findActivityByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Activity with name: %s was not found", name);
                     log.info(message);
