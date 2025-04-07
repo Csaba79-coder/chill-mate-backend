@@ -5,6 +5,7 @@ import com.csaba79coder.chillmatebackend.entity.User;
 import com.csaba79coder.chillmatebackend.model.ActivityRequest;
 import com.csaba79coder.chillmatebackend.model.ActivityResponse;
 import com.csaba79coder.chillmatebackend.model.CityResponse;
+import com.csaba79coder.chillmatebackend.model.UserResponse;
 import com.csaba79coder.chillmatebackend.persistence.UserRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityResponseToEntity;
 
@@ -25,9 +27,17 @@ public class UserService {
     private final ActivityService activityService;
     private final CityService cityService;
     private final HobbyService hobbyService;
-    //private final MovieService movieService;
-    //private final MusicGenreService musicGenreService;
-    //private final SportService sportService;
+    private final MovieService movieService;
+    private final MusicGenreService musicGenreService;
+    private final SportService sportService;
+
+
+    // TODO created model for searching easy common friends! UserCommonFriendsModel (saving time! and resources)
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(Mapper::mapUserEntityToResponse)
+                .collect(Collectors.toList());
+    }
 
     // TODO it is creating new user with a list!!!
     // TODO update the existing list deleting to it, or add to it!
