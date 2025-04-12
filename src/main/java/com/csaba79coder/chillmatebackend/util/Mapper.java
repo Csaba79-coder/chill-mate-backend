@@ -4,8 +4,6 @@ import com.csaba79coder.chillmatebackend.entity.*;
 import com.csaba79coder.chillmatebackend.model.*;
 import org.modelmapper.ModelMapper;
 
-import java.util.List;
-
 public class Mapper {
 
     private static final ModelMapper modelMapper = new ModelMapper();
@@ -66,7 +64,8 @@ public class Mapper {
         return modelMapper.map(userResponse, User.class);
     }
 
-    static {
+    // TODO this part brakes the existing part, so check and update if it is needed!
+    /*static {
         modelMapper.typeMap(User.class, UserResponse.class).addMappings(mapper -> {
             mapper.map(User::getCity, UserResponse::setCity);
             mapper.map(User::getHobbies, UserResponse::setHobbies);
@@ -100,7 +99,7 @@ public class Mapper {
                         .toList();
             }).map(UserResponse::getFriends, User::setFriends);
         });
-    }
+    }*/
 
     private Mapper() {
     }
