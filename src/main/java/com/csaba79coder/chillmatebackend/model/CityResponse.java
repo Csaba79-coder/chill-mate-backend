@@ -1,6 +1,5 @@
 package com.csaba79coder.chillmatebackend.model;
 
-import com.csaba79coder.chillmatebackend.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,5 @@ public class CityResponse {
 
     private UUID id;
     private String name;
-    private List<User> users;
+    private List<UserBasicResponse> users;
 }

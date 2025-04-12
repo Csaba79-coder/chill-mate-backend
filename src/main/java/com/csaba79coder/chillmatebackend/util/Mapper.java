@@ -3,6 +3,9 @@ package com.csaba79coder.chillmatebackend.util;
 import com.csaba79coder.chillmatebackend.entity.*;
 import com.csaba79coder.chillmatebackend.model.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+
+import java.util.List;
 
 public class Mapper {
 
@@ -64,16 +67,22 @@ public class Mapper {
         return modelMapper.map(userResponse, User.class);
     }
 
-    // TODO this part brakes the existing part, so check and update if it is needed!
-    /*static {
-        modelMapper.typeMap(User.class, UserResponse.class).addMappings(mapper -> {
+    static {
+        TypeMap<User, UserResponse> userToUserResponse = modelMapper
+                .createTypeMap(User.class, UserResponse.class, modelMapper.getConfiguration().copy()
+                        .setImplicitMappingEnabled(false)); // <-- Ezzel tiltod az automatikus nested mappingeket
+
+        userToUserResponse.addMappings(mapper -> {
             mapper.map(User::getCity, UserResponse::setCity);
             mapper.map(User::getHobbies, UserResponse::setHobbies);
             mapper.map(User::getSports, UserResponse::setSports);
             mapper.map(User::getMusicGenres, UserResponse::setMusicGenres);
             mapper.map(User::getMovies, UserResponse::setMovies);
             mapper.map(User::getActivities, UserResponse::setActivities);
+        });
 
+        // Friends - convert to UserBasicResponse to avoid circular reference
+        userToUserResponse.addMappings(mapper -> {
             mapper.using(ctx -> {
                 List<User> friends = (List<User>) ctx.getSource();
                 if (friends == null) return null;
@@ -82,24 +91,7 @@ public class Mapper {
                         .toList();
             }).map(User::getFriends, UserResponse::setFriends);
         });
-
-        modelMapper.typeMap(UserResponse.class, User.class).addMappings(mapper -> {
-            mapper.map(UserResponse::getCity, User::setCity);
-            mapper.map(UserResponse::getHobbies, User::setHobbies);
-            mapper.map(UserResponse::getSports, User::setSports);
-            mapper.map(UserResponse::getMusicGenres, User::setMusicGenres);
-            mapper.map(UserResponse::getMovies, User::setMovies);
-            mapper.map(UserResponse::getActivities, User::setActivities);
-
-            mapper.using(ctx -> {
-                List<UserBasicResponse> friendsResponse = (List<UserBasicResponse>) ctx.getSource();
-                if (friendsResponse == null) return null;
-                return friendsResponse.stream()
-                        .map(friendResponse -> modelMapper.map(friendResponse, User.class))
-                        .toList();
-            }).map(UserResponse::getFriends, User::setFriends);
-        });
-    }*/
+    }
 
     private Mapper() {
     }
