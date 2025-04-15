@@ -3,8 +3,8 @@ package com.csaba79coder.chillmatebackend.service;
 import com.csaba79coder.chillmatebackend.entity.City;
 import com.csaba79coder.chillmatebackend.model.CityRequest;
 import com.csaba79coder.chillmatebackend.model.CityResponse;
-import com.csaba79coder.chillmatebackend.model.SportResponse;
 import com.csaba79coder.chillmatebackend.persistence.CityRepository;
+import com.csaba79coder.chillmatebackend.persistence.HobbyRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapCityEntityToRespo
 public class CityService implements GetOrCreateService<City, CityRequest, CityResponse>{
 
     private final CityRepository cityRepository;
+    private final HobbyRepository hobbyRepository;
 
     public CityResponse createCity(CityRequest cityRequest) {
         if (cityRequest.getName() == null || cityRequest.getName().trim().isEmpty()) {
@@ -32,10 +33,10 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
             log.info(message);
             return new CityResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<CityResponse> existingCity = cityRepository.findCityByNameEqualsIgnoreCase(cityRequest.getName());
+        Optional<City> existingCity = cityRepository.findCityByNameEqualsIgnoreCase(cityRequest.getName());
         if (existingCity.isPresent()) {
             log.info("City with name '{}' already exists. Updating...", cityRequest.getName());
-            return existingCity.get();
+            return mapCityEntityToResponse(existingCity.get());
         }
         City city = City.builder()
                 .name(cityRequest.getName())
@@ -59,13 +60,13 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
                 });
     }
 
-    public CityResponse findByName(String name) {
-        return cityRepository.findCityByNameEqualsIgnoreCase(name)
+    public CityResponse findCityByName(String name) {
+        return mapCityEntityToResponse(cityRepository.findCityByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("City with name: %s was not found", name);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteCity(UUID id) {
@@ -76,12 +77,9 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
 
     @Override
     public CityResponse getOrCreate(String name) {
-        try {
-            return findByName(name);
-        } catch (NoSuchElementException e) {
-            City city = City.builder().name(name).build();
-            log.info("Creating new city with name: {}", name);
-            return mapCityEntityToResponse(cityRepository.save(city));
-        }
+        return cityRepository.findCityByNameEqualsIgnoreCase(name)
+                .map(Mapper::mapCityEntityToResponse)
+                .orElseGet(() -> createCity(new CityRequest(name)));
     }
+
 }

@@ -21,7 +21,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityEntityToR
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ActivityService implements GetOrCreateService<Activity, ActivityRequest, ActivityResponse>{
+public class ActivityService implements GetOrCreateService<Activity, ActivityRequest, ActivityResponse> {
 
     private final ActivityRepository activityRepository;
 
@@ -31,10 +31,10 @@ public class ActivityService implements GetOrCreateService<Activity, ActivityReq
             log.info(message);
             return new ActivityResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<ActivityResponse> existingActivity = activityRepository.findActivityByNameEqualsIgnoreCase(activityRequest.getName());
+        Optional<Activity> existingActivity = activityRepository.findActivityByNameEqualsIgnoreCase(activityRequest.getName());
         if (existingActivity.isPresent()) {
             log.info("Activity with name '{}' already exists.", activityRequest.getName());
-            return existingActivity.get();
+            return mapActivityEntityToResponse(existingActivity.get());
         }
         Activity activity = Activity.builder()
                 .name(activityRequest.getName())
@@ -59,12 +59,12 @@ public class ActivityService implements GetOrCreateService<Activity, ActivityReq
     }
 
     public ActivityResponse findActivityByName(String name) {
-        return activityRepository.findActivityByNameEqualsIgnoreCase(name)
+        return mapActivityEntityToResponse(activityRepository.findActivityByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Activity with name: %s was not found", name);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteActivity(UUID id) {
@@ -76,10 +76,7 @@ public class ActivityService implements GetOrCreateService<Activity, ActivityReq
     @Override
     public ActivityResponse getOrCreate(String name) {
         return activityRepository.findActivityByNameEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    Activity newActivity = Activity.builder().name(name).build();
-                    log.info("Creating new activity with name: {}", name);
-                    return mapActivityEntityToResponse(activityRepository.save(newActivity));
-                });
+                .map(Mapper::mapActivityEntityToResponse)
+                .orElseGet(() -> createActivity(new ActivityRequest(name)));
     }
 }

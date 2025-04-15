@@ -31,10 +31,10 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
             log.info(message);
             return new SportResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<SportResponse> existingSport = sportRepository.findSportByNameEqualsIgnoreCase(sportRequest.getName());
+        Optional<Sport> existingSport = sportRepository.findSportByNameEqualsIgnoreCase(sportRequest.getName());
         if (existingSport.isPresent()) {
             log.info("Sport with name '{}' already exists. Updating...", sportRequest.getName());
-            return existingSport.get();
+            return mapSportEntityToResponse(existingSport.get());
         }
         Sport sport = Sport.builder()
                 .name(sportRequest.getName())
@@ -59,12 +59,12 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
     }
 
     public SportResponse findSportByName(String name) {
-        return sportRepository.findSportByNameEqualsIgnoreCase(name)
+        return mapSportEntityToResponse(sportRepository.findSportByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Sport with name: %s was not found", name);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteSport(UUID id) {
@@ -76,10 +76,7 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
     @Override
     public SportResponse getOrCreate(String name) {
         return sportRepository.findSportByNameEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    Sport sport = Sport.builder().name(name).build();
-                    log.info("Creating new sport with name: {}", name);
-                    return mapSportEntityToResponse(sportRepository.save(sport));
-                });
+                .map(Mapper::mapSportEntityToResponse)
+                .orElseGet(() -> createSport(new SportRequest(name)));
     }
 }

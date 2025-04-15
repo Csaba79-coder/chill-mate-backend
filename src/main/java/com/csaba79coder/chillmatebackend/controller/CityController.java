@@ -37,7 +37,7 @@ public class CityController {
 
     @GetMapping("/cities/city-by-name/{name}")
     public ResponseEntity<CityResponse> searchCityByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(cityService.findByName(name));
+        return ResponseEntity.status(200).body(cityService.findCityByName(name));
     }
 
     @DeleteMapping("/cities/{id}")

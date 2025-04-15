@@ -31,10 +31,10 @@ public class MovieService implements GetOrCreateService<Movie, MovieRequest, Mov
             log.info(message);
             return new MovieResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<MovieResponse> existingMovie = movieRepository.findMovieByTitleEqualsIgnoreCase(movieRequest.getTitle());
+        Optional<Movie> existingMovie = movieRepository.findMovieByTitleEqualsIgnoreCase(movieRequest.getTitle());
         if (existingMovie.isPresent()) {
             log.info("Movie with title '{}' already exists. Updating...", movieRequest.getTitle());
-            return existingMovie.get();
+            return mapMovieEntityToResponse(existingMovie.get());
         }
         Movie movie = Movie.builder()
                 .title(movieRequest.getTitle())
@@ -59,12 +59,12 @@ public class MovieService implements GetOrCreateService<Movie, MovieRequest, Mov
     }
 
     public MovieResponse findMovieByName(String title) {
-        return movieRepository.findMovieByTitleEqualsIgnoreCase(title)
+        return mapMovieEntityToResponse(movieRepository.findMovieByTitleEqualsIgnoreCase(title)
                 .orElseThrow(() -> {
                     String message = String.format("Movie with title: %s was not found", title);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteMovie(UUID id) {
@@ -76,10 +76,7 @@ public class MovieService implements GetOrCreateService<Movie, MovieRequest, Mov
     @Override
     public MovieResponse getOrCreate(String name) {
         return movieRepository.findMovieByTitleEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    Movie movie = Movie.builder().title(name).build();
-                    log.info("Creating new movie with name: {}", name);
-                    return mapMovieEntityToResponse(movieRepository.save(movie));
-                });
+                .map(Mapper::mapMovieEntityToResponse)
+                .orElseGet(() -> createMovie(new MovieRequest(name)));
     }
 }

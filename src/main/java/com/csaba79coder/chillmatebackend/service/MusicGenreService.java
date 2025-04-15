@@ -31,10 +31,10 @@ public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGe
             log.info(message);
             return new MusicGenreResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<MusicGenreResponse> existingMusicGenre = musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenreRequest.getGenre());
+        Optional<MusicGenre> existingMusicGenre = musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenreRequest.getGenre());
         if (existingMusicGenre.isPresent()) {
             log.info("Music genre '{}' already exists. Updating...", musicGenreRequest.getGenre());
-            return existingMusicGenre.get();
+            return mapMusicGenreEntityToResponse(existingMusicGenre.get());
         }
         MusicGenre musicGenre = MusicGenre.builder()
                 .genre(musicGenreRequest.getGenre())
@@ -59,12 +59,12 @@ public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGe
     }
 
     public MusicGenreResponse findMusicGenreByName(String genre) {
-        return musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(genre)
+        return mapMusicGenreEntityToResponse(musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(genre)
                 .orElseThrow(() -> {
                     String message = String.format("Music genre with name: %s was not found", genre);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteMusicGenre(UUID id) {
@@ -76,10 +76,7 @@ public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGe
     @Override
     public MusicGenreResponse getOrCreate(String name) {
         return musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    MusicGenre musicGenre = MusicGenre.builder().genre(name).build();
-                    log.info("Creating new music genre with name: {}", name);
-                    return mapMusicGenreEntityToResponse(musicGenreRepository.save(musicGenre));
-                });
+                .map(Mapper::mapMusicGenreEntityToResponse)
+                .orElseGet(() -> createMusicGenre(new MusicGenreRequest(name)));
     }
 }

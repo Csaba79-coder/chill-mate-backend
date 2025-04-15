@@ -63,7 +63,7 @@ public class UserService {
                 .movies(List.of(movieEntity))
                 .city(cityEntity)
                 .build();
-        return Mapper.mapUserEntityToResponse(userRepository.save(user));
+        return mapUserEntityToResponse(userRepository.save(user));
     }
 
 
@@ -119,7 +119,7 @@ public class UserService {
         existingUser.setActivities(currentActivities);
 
         // Handle city
-        CityResponse cityResponse = cityService.findByName(cityName);
+        CityResponse cityResponse = cityService.findCityByName(cityName);
         existingUser.setCity(Mapper.mapCityResponseToEntity(cityResponse));
 
         // Save updated user

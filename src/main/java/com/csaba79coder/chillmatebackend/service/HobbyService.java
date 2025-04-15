@@ -31,10 +31,10 @@ public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, Hob
             log.info(message);
             return new HobbyResponse(message, HttpStatus.BAD_REQUEST.value());
         }
-        Optional<HobbyResponse> existingHobby = hobbyRepository.findHobbyByNameEqualsIgnoreCase(hobbyRequest.getName());
+        Optional<Hobby> existingHobby = hobbyRepository.findHobbyByNameEqualsIgnoreCase(hobbyRequest.getName());
         if (existingHobby.isPresent()) {
             log.info("Hobby with name '{}' already exists. Updating...", hobbyRequest.getName());
-            return existingHobby.get();
+            return mapHobbyEntityToResponse(existingHobby.get());
         }
         Hobby hobby = Hobby.builder()
                 .name(hobbyRequest.getName())
@@ -59,12 +59,12 @@ public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, Hob
     }
 
     public HobbyResponse findHobbyByName(String name) {
-        return hobbyRepository.findHobbyByNameEqualsIgnoreCase(name)
+        return mapHobbyEntityToResponse(hobbyRepository.findHobbyByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Hobby with name: %s was not found", name);
                     log.info(message);
                     return new NoSuchElementException(message);
-                });
+                }));
     }
 
     public void deleteHobby(UUID id) {
@@ -76,10 +76,7 @@ public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, Hob
     @Override
     public HobbyResponse getOrCreate(String name) {
         return hobbyRepository.findHobbyByNameEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    Hobby hobby = Hobby.builder().name(name).build();
-                    log.info("Creating new hobby with name: {}", name);
-                    return mapHobbyEntityToResponse(hobbyRepository.save(hobby));
-                });
+                .map(Mapper::mapHobbyEntityToResponse)
+                .orElseGet(() -> createHobby(new HobbyRequest(name)));
     }
 }
