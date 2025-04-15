@@ -17,6 +17,6 @@ public class Hobby extends Identifier {
 
     private String name;
 
-    @Relationship(type = "LIKES_HOBBY")
+    @Relationship(type = "HAS_HOBBY")
     private List<User> users;
 }
