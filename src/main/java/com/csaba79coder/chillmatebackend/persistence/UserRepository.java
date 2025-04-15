@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends Neo4jRepository<User, UUID> {
 
-    Optional<UserResponse> findUserByFistNameEqualsIgnoreCaseAndMidNameEqualsIgnoreCaseAndLastNameEqualsIgnoreCase(String firstName, String midName, String lastName);
+    Optional<UserResponse> findUserByFirstNameEqualsIgnoreCaseAndMidNameEqualsIgnoreCaseAndLastNameEqualsIgnoreCase(String firstName, String midName, String lastName);
 }

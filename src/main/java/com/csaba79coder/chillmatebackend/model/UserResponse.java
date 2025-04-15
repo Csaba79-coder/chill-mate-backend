@@ -13,7 +13,7 @@ import java.util.UUID;
 public class UserResponse {
 
     private UUID id;
-    private String fistName;
+    private String firstName;
     private String lastName;
     private String midName;
 
@@ -24,4 +24,10 @@ public class UserResponse {
     private List<MovieResponse> movies;
     private List<ActivityResponse> activities;
     private List<UserBasicResponse> friends;
+
+    private ErrorResponse error;
+
+    public UserResponse(String message, int statusCode) {
+        this.error = new ErrorResponse(message, statusCode);
+    }
 }

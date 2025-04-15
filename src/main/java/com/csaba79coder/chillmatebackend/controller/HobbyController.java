@@ -37,7 +37,7 @@ public class HobbyController {
 
     @GetMapping("/hobbies/hobby-by-name/{name}")
     public ResponseEntity<HobbyResponse> searchHobbyByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(hobbyService.findByName(name));
+        return ResponseEntity.status(200).body(hobbyService.findHobbyByName(name));
     }
 
     @DeleteMapping("/hobbies/{id}")

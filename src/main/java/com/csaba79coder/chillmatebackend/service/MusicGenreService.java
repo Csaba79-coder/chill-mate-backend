@@ -7,10 +7,12 @@ import com.csaba79coder.chillmatebackend.persistence.MusicGenreRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,16 @@ public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGe
     private final MusicGenreRepository musicGenreRepository;
 
     public MusicGenreResponse createMusicGenre(MusicGenreRequest musicGenreRequest) {
+        if (musicGenreRequest.getGenre() == null || musicGenreRequest.getGenre().trim().isEmpty()) {
+            String message = "Music genre is null. No action taken.";
+            log.info(message);
+            return new MusicGenreResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<MusicGenreResponse> existingMusicGenre = musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenreRequest.getGenre());
+        if (existingMusicGenre.isPresent()) {
+            log.info("Music genre '{}' already exists. Updating...", musicGenreRequest.getGenre());
+            return existingMusicGenre.get();
+        }
         MusicGenre musicGenre = MusicGenre.builder()
                 .genre(musicGenreRequest.getGenre())
                 .build();
@@ -46,7 +58,7 @@ public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGe
                 });
     }
 
-    public MusicGenreResponse findByName(String genre) {
+    public MusicGenreResponse findMusicGenreByName(String genre) {
         return musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(genre)
                 .orElseThrow(() -> {
                     String message = String.format("Music genre with name: %s was not found", genre);

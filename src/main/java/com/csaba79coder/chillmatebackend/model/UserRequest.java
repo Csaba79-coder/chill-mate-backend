@@ -9,7 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserRequest {
 
-    private String fistName;
+    private String firstName;
     private String lastName;
     private String midName;
+    private String city;
+    private String activity;
+    private String hobby;
+    private String sport;
+    private String musicGenre;
+    private String movie;
 }

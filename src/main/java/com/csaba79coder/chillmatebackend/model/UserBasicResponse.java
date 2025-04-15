@@ -1,5 +1,6 @@
 package com.csaba79coder.chillmatebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,11 @@ public class UserBasicResponse {
     private String fistName;
     private String lastName;
     private String midName;
+
+    @JsonIgnore
+    private ErrorResponse error;
+
+    public UserBasicResponse(String message, int statusCode) {
+        this.error = new ErrorResponse(message, statusCode);
+    }
 }

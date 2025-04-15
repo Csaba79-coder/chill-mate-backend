@@ -7,10 +7,12 @@ import com.csaba79coder.chillmatebackend.persistence.ActivityRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,16 @@ public class ActivityService implements GetOrCreateService<Activity, ActivityReq
     private final ActivityRepository activityRepository;
 
     public ActivityResponse createActivity(ActivityRequest activityRequest) {
+        if (activityRequest.getName() == null || activityRequest.getName().trim().isEmpty()) {
+            String message = "Activity name is null or empty. No action taken.";
+            log.info(message);
+            return new ActivityResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<ActivityResponse> existingActivity = activityRepository.findActivityByNameEqualsIgnoreCase(activityRequest.getName());
+        if (existingActivity.isPresent()) {
+            log.info("Activity with name '{}' already exists.", activityRequest.getName());
+            return existingActivity.get();
+        }
         Activity activity = Activity.builder()
                 .name(activityRequest.getName())
                 .build();
@@ -46,7 +58,7 @@ public class ActivityService implements GetOrCreateService<Activity, ActivityReq
                 });
     }
 
-    public ActivityResponse findByName(String name) {
+    public ActivityResponse findActivityByName(String name) {
         return activityRepository.findActivityByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Activity with name: %s was not found", name);

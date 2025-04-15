@@ -37,7 +37,7 @@ public class MusicGenreController {
 
     @GetMapping("/music-genres/music-genre-by-name/{name}")
     public ResponseEntity<MusicGenreResponse> searchMusicGenreByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(musicGenreService.findByName(name));
+        return ResponseEntity.status(200).body(musicGenreService.findMusicGenreByName(name));
     }
 
     @DeleteMapping("/music-genres/{id}")

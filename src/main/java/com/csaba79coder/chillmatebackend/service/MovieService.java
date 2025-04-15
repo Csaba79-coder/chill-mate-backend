@@ -7,10 +7,12 @@ import com.csaba79coder.chillmatebackend.persistence.MovieRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,16 @@ public class MovieService implements GetOrCreateService<Movie, MovieRequest, Mov
     private final MovieRepository movieRepository;
 
     public MovieResponse createMovie(MovieRequest movieRequest) {
+        if (movieRequest.getTitle() == null || movieRequest.getTitle().trim().isEmpty()) {
+            String message = "Movie title is null. No action taken.";
+            log.info(message);
+            return new MovieResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<MovieResponse> existingMovie = movieRepository.findMovieByTitleEqualsIgnoreCase(movieRequest.getTitle());
+        if (existingMovie.isPresent()) {
+            log.info("Movie with title '{}' already exists. Updating...", movieRequest.getTitle());
+            return existingMovie.get();
+        }
         Movie movie = Movie.builder()
                 .title(movieRequest.getTitle())
                 .build();
@@ -46,7 +58,7 @@ public class MovieService implements GetOrCreateService<Movie, MovieRequest, Mov
                 });
     }
 
-    public MovieResponse findByName(String title) {
+    public MovieResponse findMovieByName(String title) {
         return movieRepository.findMovieByTitleEqualsIgnoreCase(title)
                 .orElseThrow(() -> {
                     String message = String.format("Movie with title: %s was not found", title);

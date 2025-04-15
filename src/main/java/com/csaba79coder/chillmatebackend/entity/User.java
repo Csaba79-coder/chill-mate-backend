@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class User extends Identifier {
 
-    private String fistName;
+    private String firstName;
     private String lastName;
     private String midName;
 

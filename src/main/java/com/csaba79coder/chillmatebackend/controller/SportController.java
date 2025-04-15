@@ -37,7 +37,7 @@ public class SportController {
 
     @GetMapping("/sports/sport-by-name/{name}")
     public ResponseEntity<SportResponse> searchSportByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(sportService.findByName(name));
+        return ResponseEntity.status(200).body(sportService.findSportByName(name));
     }
 
     @DeleteMapping("/sports/{id}")

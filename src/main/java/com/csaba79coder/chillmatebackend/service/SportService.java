@@ -7,10 +7,12 @@ import com.csaba79coder.chillmatebackend.persistence.SportRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,16 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
     private final SportRepository sportRepository;
 
     public SportResponse createSport(SportRequest sportRequest) {
+        if (sportRequest.getName() == null || sportRequest.getName().trim().isEmpty()) {
+            String message = "Sport name is null. No action taken.";
+            log.info(message);
+            return new SportResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<SportResponse> existingSport = sportRepository.findSportByNameEqualsIgnoreCase(sportRequest.getName());
+        if (existingSport.isPresent()) {
+            log.info("Sport with name '{}' already exists. Updating...", sportRequest.getName());
+            return existingSport.get();
+        }
         Sport sport = Sport.builder()
                 .name(sportRequest.getName())
                 .build();
@@ -46,7 +58,7 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
                 });
     }
 
-    public SportResponse findByName(String name) {
+    public SportResponse findSportByName(String name) {
         return sportRepository.findSportByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Sport with name: %s was not found", name);

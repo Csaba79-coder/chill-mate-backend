@@ -7,10 +7,12 @@ import com.csaba79coder.chillmatebackend.persistence.HobbyRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,10 +26,20 @@ public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, Hob
     private final HobbyRepository hobbyRepository;
 
     public HobbyResponse createHobby(HobbyRequest hobbyRequest) {
+        if (hobbyRequest.getName() == null || hobbyRequest.getName().trim().isEmpty()) {
+            String message = "Hobby name is null. No action taken.";
+            log.info(message);
+            return new HobbyResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<HobbyResponse> existingHobby = hobbyRepository.findHobbyByNameEqualsIgnoreCase(hobbyRequest.getName());
+        if (existingHobby.isPresent()) {
+            log.info("Hobby with name '{}' already exists. Updating...", hobbyRequest.getName());
+            return existingHobby.get();
+        }
         Hobby hobby = Hobby.builder()
                 .name(hobbyRequest.getName())
                 .build();
-        log.info("Creating hobby: {}",hobby);
+        log.info("Creating hobby: {}", hobby);
         return mapHobbyEntityToResponse(hobbyRepository.save(hobby));
     }
 
@@ -46,7 +58,7 @@ public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, Hob
                 });
     }
 
-    public HobbyResponse findByName(String name) {
+    public HobbyResponse findHobbyByName(String name) {
         return hobbyRepository.findHobbyByNameEqualsIgnoreCase(name)
                 .orElseThrow(() -> {
                     String message = String.format("Hobby with name: %s was not found", name);

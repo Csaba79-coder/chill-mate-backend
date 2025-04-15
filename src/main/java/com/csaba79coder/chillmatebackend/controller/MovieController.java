@@ -37,7 +37,7 @@ public class MovieController {
 
     @GetMapping("/movies/movie-by-name/{name}")
     public ResponseEntity<MovieResponse> searchMovieByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(movieService.findByName(name));
+        return ResponseEntity.status(200).body(movieService.findMovieByName(name));
     }
 
     @DeleteMapping("/movies/{id}")

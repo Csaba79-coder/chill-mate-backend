@@ -3,14 +3,17 @@ package com.csaba79coder.chillmatebackend.service;
 import com.csaba79coder.chillmatebackend.entity.City;
 import com.csaba79coder.chillmatebackend.model.CityRequest;
 import com.csaba79coder.chillmatebackend.model.CityResponse;
+import com.csaba79coder.chillmatebackend.model.SportResponse;
 import com.csaba79coder.chillmatebackend.persistence.CityRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,16 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
     private final CityRepository cityRepository;
 
     public CityResponse createCity(CityRequest cityRequest) {
+        if (cityRequest.getName() == null || cityRequest.getName().trim().isEmpty()) {
+            String message = "City name is null. No action taken.";
+            log.info(message);
+            return new CityResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+        Optional<CityResponse> existingCity = cityRepository.findCityByNameEqualsIgnoreCase(cityRequest.getName());
+        if (existingCity.isPresent()) {
+            log.info("City with name '{}' already exists. Updating...", cityRequest.getName());
+            return existingCity.get();
+        }
         City city = City.builder()
                 .name(cityRequest.getName())
                 .build();
@@ -63,11 +76,12 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
 
     @Override
     public CityResponse getOrCreate(String name) {
-        return cityRepository.findCityByNameEqualsIgnoreCase(name)
-                .orElseGet(() -> {
-                    City city = City.builder().name(name).build();
-                    log.info("Creating new city with name: {}", name);
-                    return mapCityEntityToResponse(cityRepository.save(city));
-                });
+        try {
+            return findByName(name);
+        } catch (NoSuchElementException e) {
+            City city = City.builder().name(name).build();
+            log.info("Creating new city with name: {}", name);
+            return mapCityEntityToResponse(cityRepository.save(city));
+        }
     }
 }

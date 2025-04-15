@@ -37,7 +37,7 @@ public class ActivityController {
 
     @GetMapping("/activities/activity-by-name/{name}")
     public ResponseEntity<ActivityResponse> searchActivityByName(@PathVariable String name) {
-        return ResponseEntity.status(200).body(activityService.findByName(name));
+        return ResponseEntity.status(200).body(activityService.findActivityByName(name));
     }
 
     @DeleteMapping("/activities/{id}")
