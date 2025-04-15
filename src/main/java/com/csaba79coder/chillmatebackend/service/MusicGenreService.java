@@ -19,7 +19,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapMusicGenreEntityT
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MusicGenreService {
+public class MusicGenreService implements GetOrCreateService<MusicGenre, MusicGenreRequest, MusicGenreResponse>  {
 
     private final MusicGenreRepository musicGenreRepository;
 
@@ -59,5 +59,15 @@ public class MusicGenreService {
         MusicGenre musicGenre = findMusicGenreById(id);
         musicGenreRepository.delete(musicGenre);
         log.info("Music genre with id: {} deleted successfully", id);
+    }
+
+    @Override
+    public MusicGenreResponse getOrCreate(String name) {
+        return musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(name)
+                .orElseGet(() -> {
+                    MusicGenre musicGenre = MusicGenre.builder().genre(name).build();
+                    log.info("Creating new music genre with name: {}", name);
+                    return mapMusicGenreEntityToResponse(musicGenreRepository.save(musicGenre));
+                });
     }
 }

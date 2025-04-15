@@ -19,7 +19,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapMovieEntityToResp
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MovieService {
+public class MovieService implements GetOrCreateService<Movie, MovieRequest, MovieResponse> {
 
     private final MovieRepository movieRepository;
 
@@ -59,5 +59,15 @@ public class MovieService {
         Movie movie = findMovieById(id);
         movieRepository.delete(movie);
         log.info("Movie with id: {} deleted successfully", id);
+    }
+
+    @Override
+    public MovieResponse getOrCreate(String name) {
+        return movieRepository.findMovieByTitleEqualsIgnoreCase(name)
+                .orElseGet(() -> {
+                    Movie movie = Movie.builder().title(name).build();
+                    log.info("Creating new movie with name: {}", name);
+                    return mapMovieEntityToResponse(movieRepository.save(movie));
+                });
     }
 }

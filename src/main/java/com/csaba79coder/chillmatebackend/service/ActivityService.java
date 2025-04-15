@@ -19,7 +19,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityEntityToR
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ActivityService {
+public class ActivityService implements GetOrCreateService<Activity, ActivityRequest, ActivityResponse>{
 
     private final ActivityRepository activityRepository;
 
@@ -59,5 +59,15 @@ public class ActivityService {
         Activity activity = findActivityById(id);
         activityRepository.delete(activity);
         log.info("Activity with id: {} deleted successfully", id);
+    }
+
+    @Override
+    public ActivityResponse getOrCreate(String name) {
+        return activityRepository.findActivityByNameEqualsIgnoreCase(name)
+                .orElseGet(() -> {
+                    Activity newActivity = Activity.builder().name(name).build();
+                    log.info("Creating new activity with name: {}", name);
+                    return mapActivityEntityToResponse(activityRepository.save(newActivity));
+                });
     }
 }

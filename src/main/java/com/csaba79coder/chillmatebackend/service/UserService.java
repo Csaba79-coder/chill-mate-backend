@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static com.csaba79coder.chillmatebackend.util.Mapper.mapActivityResponseToEntity;
@@ -79,4 +80,18 @@ public class UserService {
         addFriendOneWay(user1, user2);
         addFriendOneWay(user2, user1);
     }
+
+    private List<Activity> getOrCreateActivities(List<String> activityNames) {
+        return activityNames.stream()
+                .map(name -> {
+                    try {
+                        return mapActivityResponseToEntity(activityService.findByName(name));
+                    } catch (NoSuchElementException e) {
+                        ActivityResponse newActivity = activityService.createActivity(new ActivityRequest(name));
+                        return mapActivityResponseToEntity(newActivity);
+                    }
+                })
+                .toList();
+    }
+
 }

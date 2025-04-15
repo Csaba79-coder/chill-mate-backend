@@ -19,7 +19,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapHobbyEntityToResp
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HobbyService {
+public class HobbyService implements GetOrCreateService<Hobby, HobbyRequest, HobbyResponse> {
 
     private final HobbyRepository hobbyRepository;
 
@@ -59,5 +59,15 @@ public class HobbyService {
         Hobby hobby = findHobbyById(id);
         hobbyRepository.delete(hobby);
         log.info("Hobby with id: {} deleted successfully", id);
+    }
+
+    @Override
+    public HobbyResponse getOrCreate(String name) {
+        return hobbyRepository.findHobbyByNameEqualsIgnoreCase(name)
+                .orElseGet(() -> {
+                    Hobby hobby = Hobby.builder().name(name).build();
+                    log.info("Creating new hobby with name: {}", name);
+                    return mapHobbyEntityToResponse(hobbyRepository.save(hobby));
+                });
     }
 }
