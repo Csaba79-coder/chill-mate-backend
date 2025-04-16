@@ -1,5 +1,6 @@
 package com.csaba79coder.chillmatebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class UserResponse {
 
     private List<UserBasicResponse> friends;
 
+    @JsonIgnore
     private ErrorResponse error;
 
     public UserResponse(String message, int statusCode) {
