@@ -23,6 +23,7 @@ public class UserResponse {
     private List<MusicGenreResponse> musicGenres;
     private List<MovieResponse> movies;
     private List<ActivityResponse> activities;
+
     private List<UserBasicResponse> friends;
 
     private ErrorResponse error;

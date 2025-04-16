@@ -6,10 +6,12 @@ import com.csaba79coder.chillmatebackend.persistence.UserRepository;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,18 +36,43 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public UserBasicResponse createUserBasic(UserBasicRequest userRequest) {
+        if (userRequest.getFirstName() == null || userRequest.getFirstName().trim().isEmpty()) {
+            String message = "User first name is null or empty. No action taken.";
+            log.info(message);
+            return new UserBasicResponse(message, HttpStatus.BAD_REQUEST.value());
+        }
+
+        Optional<User> existingUser = userRepository.findUserByFirstNameEqualsIgnoreCaseAndMidNameEqualsIgnoreCaseAndLastNameEqualsIgnoreCase(
+                userRequest.getFirstName(), userRequest.getMidName(), userRequest.getLastName());
+
+        if (existingUser.isPresent()) {
+            log.info("User with name '{}' already exists. Returning existing user...", userRequest.getFirstName());
+            return mapUserEntityToBasicResponse(existingUser.get());
+        }
+
+        User user = User.builder()
+                .firstName(userRequest.getFirstName())
+                .midName(userRequest.getMidName())
+                .lastName(userRequest.getLastName())
+                .build();
+
+        log.info("Creating new user: {}", user);
+        return mapUserEntityToBasicResponse(userRepository.save(user));
+    }
+
+
     public UserResponse createUser(
-            String firstName,
-            String midName,
-            String lastName,
+            User user,
             String city,
-            String activity,
             String hobby,
             String sport,
             String musicGenre,
-            String movie
+            String movie,
+            String activity,
+            User friend
     ) {
-        Activity activityEntity = mapActivityResponseToEntity(activityService.getOrCreate(activity));
+        /*Activity activityEntity = mapActivityResponseToEntity(activityService.getOrCreate(activity));
         Hobby hobbyEntity = mapHobbyResponseToEntity(hobbyService.getOrCreate(hobby));
         Sport sportEntity = mapSportResponseToEntity(sportService.getOrCreate(sport));
         MusicGenre musicEntity = mapMusicGenreResponseToEntity(musicGenreService.getOrCreate(musicGenre));
@@ -63,7 +90,8 @@ public class UserService {
                 .movies(List.of(movieEntity))
                 .city(cityEntity)
                 .build();
-        return mapUserEntityToResponse(userRepository.save(user));
+        return mapUserEntityToResponse(userRepository.save(user));*/
+        return null;
     }
 
 

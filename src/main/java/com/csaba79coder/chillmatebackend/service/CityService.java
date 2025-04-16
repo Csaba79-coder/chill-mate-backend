@@ -22,7 +22,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapCityEntityToRespo
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CityService implements GetOrCreateService<City, CityRequest, CityResponse>{
+public class CityService {
 
     private final CityRepository cityRepository;
     private final HobbyRepository hobbyRepository;
@@ -74,12 +74,4 @@ public class CityService implements GetOrCreateService<City, CityRequest, CityRe
         cityRepository.delete(city);
         log.info("City with id: {} deleted successfully", id);
     }
-
-    @Override
-    public CityResponse getOrCreate(String name) {
-        return cityRepository.findCityByNameEqualsIgnoreCase(name)
-                .map(Mapper::mapCityEntityToResponse)
-                .orElseGet(() -> createCity(new CityRequest(name)));
-    }
-
 }

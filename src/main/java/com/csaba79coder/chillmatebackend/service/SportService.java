@@ -21,7 +21,7 @@ import static com.csaba79coder.chillmatebackend.util.Mapper.mapSportEntityToResp
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SportService implements GetOrCreateService<Sport, SportRequest, SportResponse> {
+public class SportService {
 
     private final SportRepository sportRepository;
 
@@ -71,12 +71,5 @@ public class SportService implements GetOrCreateService<Sport, SportRequest, Spo
         Sport sport = findSportById(id);
         sportRepository.delete(sport);
         log.info("Sport with id: {} deleted successfully", id);
-    }
-
-    @Override
-    public SportResponse getOrCreate(String name) {
-        return sportRepository.findSportByNameEqualsIgnoreCase(name)
-                .map(Mapper::mapSportEntityToResponse)
-                .orElseGet(() -> createSport(new SportRequest(name)));
     }
 }

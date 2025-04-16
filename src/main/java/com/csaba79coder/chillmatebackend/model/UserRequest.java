@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserRequest {
 
-    private String firstName;
-    private String midName;
-    private String lastName;
+    private UserBasicRequest user;
     private String city;
-    private String activity;
     private String hobby;
     private String sport;
     private String musicGenre;
     private String movie;
+    private String activity;
+    private UserBasicRequest friend;
 }

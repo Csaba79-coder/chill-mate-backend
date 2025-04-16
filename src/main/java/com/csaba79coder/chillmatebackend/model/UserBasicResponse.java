@@ -13,12 +13,19 @@ import java.util.UUID;
 public class UserBasicResponse {
 
     private UUID id;
-    private String fistName;
+    private String firstName;
     private String midName;
     private String lastName;
 
     @JsonIgnore
     private ErrorResponse error;
+
+    public UserBasicResponse(UUID id, String firstName, String midName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.midName = midName;
+        this.lastName = lastName;
+    }
 
     public UserBasicResponse(String message, int statusCode) {
         this.error = new ErrorResponse(message, statusCode);

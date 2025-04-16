@@ -59,6 +59,14 @@ public class Mapper {
         return modelMapper.map(sportResponse, Sport.class);
     }
 
+    public static UserBasicResponse mapUserEntityToBasicResponse(User user) {
+        return modelMapper.map(user, UserBasicResponse.class);
+    }
+
+    public static User mapUserBasicResponseToEntity(UserBasicResponse response) {
+        return modelMapper.map(response, User.class);
+    }
+
     public static UserResponse mapUserEntityToResponse(User user) {
         return modelMapper.map(user, UserResponse.class);
     }
@@ -73,8 +81,8 @@ public class Mapper {
                         .setImplicitMappingEnabled(false)); // <-- Ezzel tiltod az automatikus nested mappingeket
 
         userToUserResponse.addMappings(mapper -> {
-            mapper.map(User::getId, UserResponse::setId);
-            mapper.map(User::getFirstName, UserResponse::setFirstName);
+            mapper.map(com.csaba79coder.chillmatebackend.entity.User::getId, UserResponse::setId);
+            mapper.map(com.csaba79coder.chillmatebackend.entity.User::getFirstName, UserResponse::setFirstName);
             mapper.map(User::getMidName, UserResponse::setMidName);
             mapper.map(User::getLastName, UserResponse::setLastName);
             mapper.map(User::getCity, UserResponse::setCity);
