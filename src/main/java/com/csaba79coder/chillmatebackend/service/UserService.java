@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.csaba79coder.chillmatebackend.util.Mapper.*;
@@ -60,6 +57,49 @@ public class UserService {
         log.info("Creating new user: {}", user);
         return mapUserEntityToBasicResponse(userRepository.save(user));
     }
+
+    public UserBasicResponse findUserById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> {
+                    String message = String.format("User with id: %s was not found", id);
+                    log.info(message);
+                    return new NoSuchElementException(message);
+                });
+
+        return mapUserEntityToBasicResponse(user);
+    }
+
+    public void deleteUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> {
+                    String message = String.format("User with id: %s was not found", id);
+                    log.info(message);
+                    return new NoSuchElementException(message);
+                });
+
+        userRepository.delete(user);
+        log.info("User with id: {} deleted successfully", id);
+    }
+
+    public List<UserBasicResponse> findUsersByName(String name) {
+        String searchQuery = name.trim();
+
+        if (searchQuery.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return userRepository.findByFirstNameContainingIgnoreCaseOrMidNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(
+                searchQuery, searchQuery, searchQuery)
+                .stream()
+                .map(Mapper::mapUserEntityToBasicResponse)
+                .toList();
+    }
+
+
+
+
+
+
 
 
     public UserResponse createUser(
