@@ -14,8 +14,8 @@ public class UserBasicResponse {
 
     private UUID id;
     private String fistName;
-    private String lastName;
     private String midName;
+    private String lastName;
 
     @JsonIgnore
     private ErrorResponse error;

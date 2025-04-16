@@ -14,8 +14,8 @@ public class UserResponse {
 
     private UUID id;
     private String firstName;
-    private String lastName;
     private String midName;
+    private String lastName;
 
     private CityResponse city;
     private List<HobbyResponse> hobbies;

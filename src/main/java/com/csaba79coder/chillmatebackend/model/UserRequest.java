@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class UserRequest {
 
     private String firstName;
-    private String lastName;
     private String midName;
+    private String lastName;
     private String city;
     private String activity;
     private String hobby;

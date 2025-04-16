@@ -73,6 +73,10 @@ public class Mapper {
                         .setImplicitMappingEnabled(false)); // <-- Ezzel tiltod az automatikus nested mappingeket
 
         userToUserResponse.addMappings(mapper -> {
+            mapper.map(User::getId, UserResponse::setId);
+            mapper.map(User::getFirstName, UserResponse::setFirstName);
+            mapper.map(User::getMidName, UserResponse::setMidName);
+            mapper.map(User::getLastName, UserResponse::setLastName);
             mapper.map(User::getCity, UserResponse::setCity);
             mapper.map(User::getHobbies, UserResponse::setHobbies);
             mapper.map(User::getSports, UserResponse::setSports);
