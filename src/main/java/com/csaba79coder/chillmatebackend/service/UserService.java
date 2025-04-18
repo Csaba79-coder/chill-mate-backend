@@ -1,7 +1,10 @@
 package com.csaba79coder.chillmatebackend.service;
 
 import com.csaba79coder.chillmatebackend.entity.*;
-import com.csaba79coder.chillmatebackend.model.*;
+import com.csaba79coder.chillmatebackend.model.UserBasicRequest;
+import com.csaba79coder.chillmatebackend.model.UserBasicResponse;
+import com.csaba79coder.chillmatebackend.model.UserRequest;
+import com.csaba79coder.chillmatebackend.model.UserResponse;
 import com.csaba79coder.chillmatebackend.persistence.*;
 import com.csaba79coder.chillmatebackend.util.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static com.csaba79coder.chillmatebackend.util.Mapper.*;
+import static com.csaba79coder.chillmatebackend.util.Mapper.mapUserEntityToBasicResponse;
+import static com.csaba79coder.chillmatebackend.util.Mapper.mapUserEntityToResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -148,23 +153,40 @@ public class UserService {
                                        user.getActivities().add(a);
                                    }
                                });
-// TODO a friends!
-        /*String firstName = request.getFriend().getFirstName();
-        String midName = request.getFriend().getMidName();
-        String lastName = request.getFriend().getLastName();
+        boolean hasAnyFriendField = Stream.of(
+                request.getFriendFirstName(),
+                request.getFriendMidName(),
+                request.getFriendLastName()
+        ).anyMatch(s -> s != null && !s.trim().isEmpty());
 
-        if (firstName != null && !firstName.trim().isEmpty() &&
-                midName != null && !midName.trim().isEmpty() &&
-                lastName != null && !lastName.trim().isEmpty()) {
-            User friend = new User();
-            friend.setFirstName(firstName);
-            friend.setMidName(midName);
-            friend.setLastName(lastName);
+        if (hasAnyFriendField) {
+            String firstName = request.getFriendFirstName();
+            String lastName = request.getFriendLastName();
+            String midName = request.getFriendMidName();
 
-            if (!user.getFriends().contains(friend)) {
-                user.getFriends().add(friend);
+            if (firstName != null && !firstName.trim().isEmpty() &&
+                    lastName != null && !lastName.trim().isEmpty()) {
+
+                Optional<User> existingFriend = userRepository.findUserByFirstNameEqualsIgnoreCaseAndMidNameEqualsIgnoreCaseAndLastNameEqualsIgnoreCase(
+                        firstName.trim(), midName != null ? midName.trim() : "", lastName.trim());
+
+                User friend;
+                if (existingFriend.isPresent()) {
+                    friend = existingFriend.get();
+                } else {
+                    friend = new User();
+                    friend.setFirstName(firstName.trim());
+                    friend.setLastName(lastName.trim());
+                    if (midName != null && !midName.trim().isEmpty()) {
+                        friend.setMidName(midName.trim());
+                    }
+                    userRepository.save(friend);
+                }
+                if (!user.getFriends().contains(friend)) {
+                    user.getFriends().add(friend);
+                }
             }
-        }*/
+        }
         userRepository.save(user);
         return mapUserEntityToResponse(user);
     }

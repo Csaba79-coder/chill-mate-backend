@@ -15,7 +15,7 @@ public class UserRequest {
     private String music;
     private String movie;
     private String event;
-    private String firstName;
-    private String midName;
-    private String lastName;
+    private String friendFirstName;
+    private String friendMidName;
+    private String friendLastName;
 }
