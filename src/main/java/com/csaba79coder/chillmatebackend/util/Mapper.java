@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Mapper {
 
@@ -73,6 +74,13 @@ public class Mapper {
 
     public static User mapUserResponseToEntity(UserResponse userResponse) {
         return modelMapper.map(userResponse, User.class);
+    }
+
+    public static UserGraphResponse mapToUserGraphResponse(User user) {
+        List<UserGraphResponse.Friend> friends = user.getFriends().stream()
+                .map(friend -> new UserGraphResponse.Friend(friend.getId(), friend.getFirstName(), friend.getMidName(), friend.getLastName()))
+                .collect(Collectors.toList());
+        return new UserGraphResponse(user.getId(), user.getFirstName(), user.getMidName(), user.getLastName(), friends);
     }
 
     static {
