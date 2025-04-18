@@ -112,33 +112,6 @@ public class UserService {
                         user.getHobbies().add(h);
                     }
                 });
-        Optional.ofNullable(request.getMovie())
-                .filter(movie -> !movie.trim().isEmpty())
-                .map(movie -> movieRepository.findMovieByTitleEqualsIgnoreCase(movie)
-                        .orElseGet(() -> createMovie(movie)))
-                .ifPresent(m -> {
-                    if (!user.getMovies().contains(m)) {
-                        user.getMovies().add(m);
-                    }
-                });
-        Optional.ofNullable(request.getActivity())
-                .filter(activity -> !activity.trim().isEmpty())
-                .map(activity -> activityRepository.findActivityByNameEqualsIgnoreCase(activity)
-                        .orElseGet(() -> createActivity(activity)))
-                .ifPresent(a -> {
-                    if (!user.getActivities().contains(a)) {
-                        user.getActivities().add(a);
-                    }
-                });
-        Optional.ofNullable(request.getMusicGenre())
-                .filter(musicGenre -> !musicGenre.trim().isEmpty())
-                .map(musicGenre -> musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenre)
-                        .orElseGet(() -> createMusicGenre(musicGenre)))
-                .ifPresent(m -> {
-                    if (!user.getMusicGenres().contains(m)) {
-                        user.getMusicGenres().add(m);
-                    }
-                });
         Optional.ofNullable(request.getSport())
                 .filter(sport -> !sport.trim().isEmpty())
                 .map(sport -> sportRepository.findSportByNameEqualsIgnoreCase(sport)
@@ -148,6 +121,50 @@ public class UserService {
                         user.getSports().add(s);
                     }
                 });
+        Optional.ofNullable(request.getMusic())
+                .filter(musicGenre -> !musicGenre.trim().isEmpty())
+                .map(musicGenre -> musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenre)
+                        .orElseGet(() -> createMusicGenre(musicGenre)))
+                .ifPresent(m -> {
+                    if (!user.getMusicGenres().contains(m)) {
+                        user.getMusicGenres().add(m);
+                    }
+                });
+        Optional.ofNullable(request.getMovie())
+                .filter(movie -> !movie.trim().isEmpty())
+                .map(movie -> movieRepository.findMovieByTitleEqualsIgnoreCase(movie)
+                        .orElseGet(() -> createMovie(movie)))
+                .ifPresent(m -> {
+                    if (!user.getMovies().contains(m)) {
+                        user.getMovies().add(m);
+                    }
+                });
+       Optional.ofNullable(request.getEvent())
+               .filter(activity -> !activity.trim().isEmpty())
+                       .map(activity -> activityRepository.findActivityByNameEqualsIgnoreCase(activity)
+                       .orElseGet(() -> createActivity(activity)))
+                               .ifPresent(a -> {
+                                   if (!user.getActivities().contains(a)) {
+                                       user.getActivities().add(a);
+                                   }
+                               });
+// TODO a friends!
+        /*String firstName = request.getFriend().getFirstName();
+        String midName = request.getFriend().getMidName();
+        String lastName = request.getFriend().getLastName();
+
+        if (firstName != null && !firstName.trim().isEmpty() &&
+                midName != null && !midName.trim().isEmpty() &&
+                lastName != null && !lastName.trim().isEmpty()) {
+            User friend = new User();
+            friend.setFirstName(firstName);
+            friend.setMidName(midName);
+            friend.setLastName(lastName);
+
+            if (!user.getFriends().contains(friend)) {
+                user.getFriends().add(friend);
+            }
+        }*/
         userRepository.save(user);
         return mapUserEntityToResponse(user);
     }
@@ -162,6 +179,12 @@ public class UserService {
         Hobby hobby = new Hobby();
         hobby.setName(hobbyName);
         return hobbyRepository.save(hobby);
+    }
+
+    private Sport createSport(String sportName) {
+        Sport sport = new Sport();
+        sport.setName(sportName);
+        return sportRepository.save(sport);
     }
 
     private Movie createMovie(String movieName) {
@@ -182,11 +205,7 @@ public class UserService {
         return musicGenreRepository.save(musicGenre);
     }
 
-    private Sport createSport(String sportName) {
-        Sport sport = new Sport();
-        sport.setName(sportName);
-        return sportRepository.save(sport);
-    }
+
 
 
 

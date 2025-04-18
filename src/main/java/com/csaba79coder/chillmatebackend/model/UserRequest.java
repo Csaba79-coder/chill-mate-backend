@@ -12,8 +12,10 @@ public class UserRequest {
     private String city;
     private String hobby;
     private String sport;
-    private String musicGenre;
+    private String music;
     private String movie;
-    private String activity;
-    private UserBasicRequest friend;
+    private String event;
+    private String firstName;
+    private String midName;
+    private String lastName;
 }
