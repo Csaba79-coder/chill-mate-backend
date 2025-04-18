@@ -50,23 +50,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+        return ResponseEntity.status(200).body(users);
     }
 
-    @PostMapping("/users/xx")
-    public ResponseEntity<UserResponse> createUser(
-            @RequestBody UserRequest request) {
-
-        return null; /* ResponseEntity.status(201).body(userService.createUser(
-                request.getUser().getFirstName(),
-                request.getUser().getMidName(),
-                request.getUser().getLastName(),
-                request.getCity(),
-                request.getActivity(),
-                request.getHobby(),
-                request.getSport(),
-                request.getMusicGenre(),
-                request.getMovie()
-        ));*/
+    @PutMapping("/users/{id}/connections")
+    public ResponseEntity<UserResponse> addConnectionsToUser(@PathVariable UUID id, @RequestBody UserRequest request) {
+        return ResponseEntity.status(201).body(userService.addConnectionsToUser(id, request));
     }
 }

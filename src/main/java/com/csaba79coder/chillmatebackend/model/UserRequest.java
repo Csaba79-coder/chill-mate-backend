@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserRequest {
 
-    private UserBasicRequest user;
     private String city;
     private String hobby;
     private String sport;
