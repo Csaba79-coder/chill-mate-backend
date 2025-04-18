@@ -112,6 +112,42 @@ public class UserService {
                         user.getHobbies().add(h);
                     }
                 });
+        Optional.ofNullable(request.getMovie())
+                .filter(movie -> !movie.trim().isEmpty())
+                .map(movie -> movieRepository.findMovieByTitleEqualsIgnoreCase(movie)
+                        .orElseGet(() -> createMovie(movie)))
+                .ifPresent(m -> {
+                    if (!user.getMovies().contains(m)) {
+                        user.getMovies().add(m);
+                    }
+                });
+        Optional.ofNullable(request.getActivity())
+                .filter(activity -> !activity.trim().isEmpty())
+                .map(activity -> activityRepository.findActivityByNameEqualsIgnoreCase(activity)
+                        .orElseGet(() -> createActivity(activity)))
+                .ifPresent(a -> {
+                    if (!user.getActivities().contains(a)) {
+                        user.getActivities().add(a);
+                    }
+                });
+        Optional.ofNullable(request.getMusicGenre())
+                .filter(musicGenre -> !musicGenre.trim().isEmpty())
+                .map(musicGenre -> musicGenreRepository.findMusicGenreByGenreEqualsIgnoreCase(musicGenre)
+                        .orElseGet(() -> createMusicGenre(musicGenre)))
+                .ifPresent(m -> {
+                    if (!user.getMusicGenres().contains(m)) {
+                        user.getMusicGenres().add(m);
+                    }
+                });
+        Optional.ofNullable(request.getSport())
+                .filter(sport -> !sport.trim().isEmpty())
+                .map(sport -> sportRepository.findSportByNameEqualsIgnoreCase(sport)
+                        .orElseGet(() -> createSport(sport)))
+                .ifPresent(s -> {
+                    if (!user.getSports().contains(s)) {
+                        user.getSports().add(s);
+                    }
+                });
         userRepository.save(user);
         return mapUserEntityToResponse(user);
     }
@@ -126,6 +162,30 @@ public class UserService {
         Hobby hobby = new Hobby();
         hobby.setName(hobbyName);
         return hobbyRepository.save(hobby);
+    }
+
+    private Movie createMovie(String movieName) {
+        Movie movie = new Movie();
+        movie.setTitle(movieName);
+        return movieRepository.save(movie);
+    }
+
+    private Activity createActivity(String activityName) {
+        Activity activity = new Activity();
+        activity.setName(activityName);
+        return activityRepository.save(activity);
+    }
+
+    private MusicGenre createMusicGenre(String musicGenreName) {
+        MusicGenre musicGenre = new MusicGenre();
+        musicGenre.setGenre(musicGenreName);
+        return musicGenreRepository.save(musicGenre);
+    }
+
+    private Sport createSport(String sportName) {
+        Sport sport = new Sport();
+        sport.setName(sportName);
+        return sportRepository.save(sport);
     }
 
 
