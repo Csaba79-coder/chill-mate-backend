@@ -1,0 +1,515 @@
+{
+	"info": {
+		"_postman_id": "0725f340-c736-4312-bee0-e9988038a503",
+		"name": "chill-mate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18091890",
+		"_collection_link": "https://crimson-firefly-974571.postman.co/workspace/My-Workspace~7e2291dc-a68f-4c99-8e2b-6a4ed4564dfd/collection/18091890-0725f340-c736-4312-bee0-e9988038a503?action=share&source=collection_link&creator=18091890"
+	},
+	"item": [
+		{
+			"name": "renderAllAcitvities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllCities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllHobbies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/hobbies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"hobbies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllMovies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findMovieByTitle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/movies/movie-by-name/MI",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"movies",
+						"movie-by-name",
+						"MI"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllMusicGenre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/music-genres",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"music-genres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllSports",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/sports",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renderUserDetailedById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/users/2d5478f6-0873-46ea-94d7-008fca202603",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"2d5478f6-0873-46ea-94d7-008fca202603"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAcitivityByIdNonExisting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities/activity-by-id/69723c7a-1551-4bda-9c36-110e0d879051",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities",
+						"activity-by-id",
+						"69723c7a-1551-4bda-9c36-110e0d879051"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAcitivityByExistingId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities/activity-by-id/cfe697e0-2784-434c-a8a0-6c2c99764fef",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities",
+						"activity-by-id",
+						"cfe697e0-2784-434c-a8a0-6c2c99764fef"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new activity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Activity Name\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/activities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new city Budapest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Budapest\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new city Veszprém",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Veszprém\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Elek\",\r\n  \"midName\": \"L.\",\r\n  \"lastName\": \"Teszt\",\r\n  \"city\": \"Budapest\",\r\n  \"activity\": \"koncert\",\r\n  \"hobby\": \"olvasás\",\r\n  \"sport\": \"futás\",\r\n  \"musicGenre\": \"jazz\",\r\n  \"movie\": \"Inception\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add new user basic",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Elek2\",\r\n  \"midName\": \"L.\",\r\n  \"lastName\": \"Teszt\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/basic-user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"basic-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findActivityByNameExisting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities/activity-by-name/kertészkedés",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities",
+						"activity-by-name",
+						"kertészkedés"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findActivityByNameNonExisting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities/activity-by-name/somethingNotExistingActivity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities",
+						"activity-by-name",
+						"somethingNotExistingActivity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findHobbyByNameNonExisting",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/hobbies/hobby-by-name/somethingNotExistingHobby",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"hobbies",
+						"hobby-by-name",
+						"somethingNotExistingHobby"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findActivityByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/activities/activity-by-name/kirándulás",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"activities",
+						"activity-by-name",
+						"kirándulás"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCityConnection",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"city\": \"Budapest\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/e04d8fc5-c1d5-4ce7-8327-89c8d3db7065/connections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"e04d8fc5-c1d5-4ce7-8327-89c8d3db7065",
+						"connections"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
