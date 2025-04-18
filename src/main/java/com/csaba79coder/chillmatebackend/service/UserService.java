@@ -74,6 +74,15 @@ public class UserService {
         return mapUserEntityToBasicResponse(user);
     }
 
+    public UserResponse findDetailedUserById(UUID id) {
+        return mapUserEntityToResponse(userRepository.findById(id)
+                .orElseThrow(() -> {
+                    String message = String.format("User with id: %s was not found", id);
+                    log.info(message);
+                    return new NoSuchElementException(message);
+                }));
+    }
+
     public void deleteUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
@@ -170,18 +179,17 @@ public class UserService {
                 Optional<User> existingFriend = userRepository.findUserByFirstNameEqualsIgnoreCaseAndMidNameEqualsIgnoreCaseAndLastNameEqualsIgnoreCase(
                         firstName.trim(), midName != null ? midName.trim() : "", lastName.trim());
 
-                User friend;
-                if (existingFriend.isPresent()) {
-                    friend = existingFriend.get();
-                } else {
-                    friend = new User();
-                    friend.setFirstName(firstName.trim());
-                    friend.setLastName(lastName.trim());
+                User friend = existingFriend.orElseGet(() -> {
+                    User newFriend = new User();
+                    newFriend.setFirstName(firstName.trim());
+                    newFriend.setLastName(lastName.trim());
                     if (midName != null && !midName.trim().isEmpty()) {
-                        friend.setMidName(midName.trim());
+                        newFriend.setMidName(midName.trim());
                     }
-                    userRepository.save(friend);
-                }
+                    // Itt NEM mentjük el, csak visszaadjuk:
+                    return newFriend;
+                });
+
                 if (!user.getFriends().contains(friend)) {
                     user.getFriends().add(friend);
                 }
@@ -226,41 +234,4 @@ public class UserService {
         musicGenre.setGenre(musicGenreName);
         return musicGenreRepository.save(musicGenre);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // One-way friendship
-    public void addFriendOneWay(User from, User to) {
-        if (!from.getFriends().contains(to)) {
-            from.getFriends().add(to);
-            userRepository.save(from);
-        }
-    }
-
-    // Both ways friendship
-    public void addFriendMutual(User user1, User user2) {
-        addFriendOneWay(user1, user2);
-        addFriendOneWay(user2, user1);
-    }
-
 }

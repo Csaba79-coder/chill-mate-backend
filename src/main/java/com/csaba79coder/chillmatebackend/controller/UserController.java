@@ -57,4 +57,9 @@ public class UserController {
     public ResponseEntity<UserResponse> addConnectionsToUser(@PathVariable UUID id, @RequestBody UserRequest request) {
         return ResponseEntity.status(201).body(userService.addConnectionsToUser(id, request));
     }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserResponse> getUserDetailedById(@PathVariable UUID id) {
+       return ResponseEntity.status(200).body(userService.findDetailedUserById(id));
+    }
 }
