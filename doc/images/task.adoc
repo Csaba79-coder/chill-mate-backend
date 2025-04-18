@@ -1,0 +1,43 @@
+= Chill Mate App
+
+== Főoldal
+
+image::image-2025-04-18-18-31-20-083.png[]
+
+== Események
+
+image::image-2025-04-18-17-24-42-945.png[]
+
+== Város (ahol él)
+
+image::image-2025-04-18-17-22-26-395.png[]
+
+== Hobbik
+
+image::image-2025-04-18-17-21-43-947.png[]
+
+== Filmek
+
+image::image-2025-04-18-17-20-34-463.png[]
+
+== Zenei műfajok
+
+image::image-2025-04-18-17-19-58-261.png[]
+
+== Sportok
+
+image::image-2025-04-18-17-19-27-616.png[]
+
+== Emberek - kapcsolatok - barátságok
+
+image::image-2025-04-18-17-17-54-230.png[]
+
+image::image-2025-04-18-17-18-17-533.png[]
+
+image::image-2025-04-18-17-18-40-618.png[]
+
+== Kapcsolatok (gráf)
+
+- A nyil mutatja a kapcsolatokat, ha két irányú, akkor mindkét irányba mutat
+
+image::image-2025-04-18-17-16-20-958.png[]
