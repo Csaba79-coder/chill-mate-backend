@@ -1,0 +1,58 @@
+﻿[
+  {
+    "n": {
+      "identity": 9,
+      "labels": [
+        "Identifier",
+        "Sport"
+      ],
+      "properties": {
+        "name": "tenisz",
+        "id": "9f8fb9f9-dff3-40b6-90df-fecd48a13e5a"
+      },
+      "elementId": "4:9f710b9a-05a6-42f9-ac4a-81911d4fffd4:9"
+    }
+  },
+  {
+    "n": {
+      "identity": 10,
+      "labels": [
+        "Identifier",
+        "Sport"
+      ],
+      "properties": {
+        "name": "úszás",
+        "id": "d95b5dc4-69be-422e-8b00-a8ebe408ed39"
+      },
+      "elementId": "4:9f710b9a-05a6-42f9-ac4a-81911d4fffd4:10"
+    }
+  },
+  {
+    "n": {
+      "identity": 12,
+      "labels": [
+        "Identifier",
+        "Sport"
+      ],
+      "properties": {
+        "name": "foci",
+        "id": "da708623-c824-4a80-9031-cb1cfc8251b1"
+      },
+      "elementId": "4:9f710b9a-05a6-42f9-ac4a-81911d4fffd4:12"
+    }
+  },
+  {
+    "n": {
+      "identity": 15,
+      "labels": [
+        "Identifier",
+        "Sport"
+      ],
+      "properties": {
+        "name": "futás",
+        "id": "923d70a6-dfaa-4cc7-b03e-57a183b0828f"
+      },
+      "elementId": "4:9f710b9a-05a6-42f9-ac4a-81911d4fffd4:15"
+    }
+  }
+]

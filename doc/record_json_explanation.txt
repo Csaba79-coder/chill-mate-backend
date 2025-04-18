@@ -1,0 +1,20 @@
+A JSON adatban az "n" kulcs a csomópontot (node) jelöli, amely a Neo4j adatbázisban található. 
+A Neo4j adatmodellben a csomópontok (nodes) az adatok tárolására szolgálnak. 
+A "n" kulcs tehát egy csomópontot reprezentál, amely tartalmazza az alábbi adatokat:
+
+identity: A csomópont egyedi azonosítója.
+
+labels: A csomópont címkéi, amelyek segítenek kategorizálni vagy típusok szerint rendezni a
+csomópontokat (pl. "Identifier", "Sport").
+
+properties: A csomópont tulajdonságai, amelyek kulcs-érték párok formájában tárolják az adatokat
+(pl. name és id).
+
+elementId: Egy egyedi azonosító, amely segíthet azonosítani a csomópontot egy adott környezetben
+vagy lekérdezés eredményeként.
+
+Az "n" tehát itt egy egyszerűsített szintaxis, amely a csomópontot tartalmazza, és a valós adatokat
+hozzáférhetővé teszi.
+
+Ez egy gyakori jelölés lehet, amikor adatokat exportálnak vagy JSON formátumban tárolnak, hogy
+egyértelmű legyen, hogy a "n" a csomópontot tartalmazza.
