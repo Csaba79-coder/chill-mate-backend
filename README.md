@@ -10,8 +10,8 @@ In this application, users and their interests are represented within a **graph 
 
 These relationships originate from the user and point toward an interest:
 
-- **Residence:** `LIVES_IN`
-- **Hobby:** `LIKES_HOBBY`
+- **City:** `LIVES_IN`
+- **Hobby:** `HAS_HOBBY`
 - **Sport:** `PLAYS_SPORT`
 - **Music Genre:** `LIKES_MUSIC`
 - **Movie:** `LIKES_MOVIE`
