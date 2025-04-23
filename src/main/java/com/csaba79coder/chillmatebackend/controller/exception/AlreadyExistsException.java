@@ -1,4 +1,4 @@
-package com.csaba79coder.chillmatebackend.config.exception;
+package com.csaba79coder.chillmatebackend.controller.exception;
 
 public class AlreadyExistsException extends RuntimeException {
 

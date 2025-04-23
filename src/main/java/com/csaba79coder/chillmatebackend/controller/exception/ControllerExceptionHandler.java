@@ -1,4 +1,4 @@
-package com.csaba79coder.chillmatebackend.config.exception;
+package com.csaba79coder.chillmatebackend.controller.exception;
 
 import com.csaba79coder.chillmatebackend.value.ErrorCode;
 import org.springframework.http.HttpStatus;
