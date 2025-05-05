@@ -1,0 +1,4 @@
+MATCH (u:User)-[:IS_FRIEND_WITH]->(f:User),
+      (u)-[:LIVES_IN]->(c:City),
+      (f)-[:LIVES_IN]->(c)
+RETURN u, f, c
